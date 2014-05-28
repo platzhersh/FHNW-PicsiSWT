@@ -55,8 +55,7 @@ public class Editor extends JFrame {
 			jToolBar.setFloatable(false);
 			{
 				jSaveBtn = new JButton();
-				jSaveBtn.setIcon(new ImageIcon(getClass().getClassLoader().getResource(
-						"images/saveHS.png")));
+				jSaveBtn.setIcon(new ImageIcon(getClass().getClassLoader().getResource("images/saveHS.png")));
 				jSaveBtn.setToolTipText("Save");
 				jSaveBtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent evt) {
@@ -67,8 +66,7 @@ public class Editor extends JFrame {
 			}
 			{
 				jSaveAsBtn = new JButton();
-				jSaveAsBtn.setIcon(new ImageIcon(getClass().getClassLoader().getResource(
-						"images/saveAsHS.png")));
+				jSaveAsBtn.setIcon(new ImageIcon(getClass().getClassLoader().getResource("images/saveAsHS.png")));
 				jSaveAsBtn.setToolTipText("Save As");
 				jSaveAsBtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent evt) {
@@ -150,11 +148,9 @@ public class Editor extends JFrame {
 
 				// read header of written file and check validity
 				if (!new PNM().checkHeader(m_path)) {
-					JOptionPane
-							.showMessageDialog(
-									this,
-									"Invalid header.\nHeader has to be a valid PBM, PGM, or PPM image header (ASCII format).",
-									"Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this,
+							"Invalid header.\nHeader has to be a valid PBM, PGM, or PPM image header (ASCII format).",
+							"Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 

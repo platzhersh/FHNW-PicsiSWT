@@ -294,16 +294,10 @@ public class View extends Canvas {
 				if (printer.startPage()) {
 					GC gc = new GC(printer);
 					Image printerImage = new Image(printer, imageData);
-					gc.drawImage(
-						printerImage,
-						0,
-						0,
-						imageData.width,
-						imageData.height,
-						-trim.x,
-						-trim.y,
-						scaleFactor*imageData.width,
-						scaleFactor*imageData.height);
+					gc.drawImage(printerImage, 0, 0,
+						imageData.width, imageData.height,
+						-trim.x, -trim.y,
+						scaleFactor*imageData.width, scaleFactor*imageData.height);
 					printerImage.dispose();
 					gc.dispose();
 					printer.endPage();

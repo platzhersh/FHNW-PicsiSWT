@@ -41,6 +41,7 @@ public class ImageProcessing {
 		m_menuItems.add(new ImageMenuItem("&Scale\tF3", SWT.F3, new Scaler()));
 		m_menuItems.add(new ImageMenuItem("&Filter\tF4", SWT.F4, new Filter()));
 		m_menuItems.add(new ImageMenuItem("&Edge Filter\tF5", SWT.F5, new EdgeDetector()));
+		m_menuItems.add(new ImageMenuItem("&PatternReconition\tF6", SWT.F6, new PM()));
 		// TODO add here further image processing objects (they are inserted into the Image menu)
 	}
 
@@ -127,8 +128,7 @@ public class ImageProcessing {
 		return outData;
 	}
 
-	public static ImageData convolve(ImageData inData, int imageType, int[][] filter, int den,
-			int offset) {
+	public static ImageData convolve(ImageData inData, int imageType, int[][] filter, int den, int offset) {
 		assert den > 0 : "wrong denominator";
 
 		ImageData outData = (ImageData) inData.clone();

@@ -136,11 +136,9 @@ public class MainWindow {
 		if (args == null) {
 			m_statusLabel.setText("");
 		} else {
-			m_statusLabel
-					.setText(PicsiSWT
-							.createMsg(
-									"Image color at ({0,number,integer}, {1,number,integer}) - pixel {2,number,integer} [0x{3}] - is {4} [0x{5}] {6}",
-									args));
+			m_statusLabel.setText(PicsiSWT.createMsg(
+					"Image color at ({0,number,integer}, {1,number,integer})"
+					+ "- pixel {2,number,integer} [0x{3}] - is {4} [0x{5}] {6}", args));
 		}
 	}
 

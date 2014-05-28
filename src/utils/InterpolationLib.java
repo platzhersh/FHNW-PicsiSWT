@@ -57,11 +57,13 @@ public class InterpolationLib {
 				
 				int pixel = 0;
 				RGB currentPixel = null;
+				
+				int lenFilter = filter.length/2;
 								
 				for (int i = 0; i < filter.length; i++) {
 					for (int j = 0; j < filter[i].length; j++) {
 
-						int locationX = (u-1)+i, locationY = (v-1)+j;						
+						int locationX = (u-lenFilter)+i, locationY = (v-lenFilter)+j;						
 						
 						// Miroring of out-of-bounds pixels
 						if (locationX < 0) locationX = locationX+filter.length-1;
