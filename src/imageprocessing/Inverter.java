@@ -21,14 +21,28 @@ public class Inverter implements imageprocessing.IImageProcessor {
 //		for (int i = 0; i < inData.data.length; i++) {
 //			inData.data[i] = (byte) ~inData.data[i];
 //		}
-
-		for (int v = 0; v < inData.height; v++) {
-			for (int u = 0; u < inData.width; u++) {
-				int pixel = inData.getPixel(u, v);
-				RGB rgb = inData.palette.getRGB(pixel);
-				rgb.blue = 0;
-				rgb.red = 0;
-				inData.setPixel(u, v, inData.palette.getPixel(rgb));
+		
+		if (imageType == PicsiSWT.IMAGE_TYPE_GRAY) {
+			for (int v = 0; v < inData.height; v++) {
+				for (int u = 0; u < inData.width; u++) {
+					int pixel = inData.getPixel(u, v);
+					RGB rgb = inData.palette.getRGB(pixel);
+					int gray = (rgb.red + rgb.green + rgb.blue) / 3;
+					int invGray = 255 - gray;
+					RGB inv = new RGB(invGray, invGray, invGray);
+					inData.setPixel(u, v, inData.palette.getPixel(inv));
+				}
+			}
+		} else {
+			for (int v = 0; v < inData.height; v++) {
+				for (int u = 0; u < inData.width; u++) {
+					int pixel = inData.getPixel(u, v);
+					RGB rgb = inData.palette.getRGB(pixel);
+					rgb.blue = 255 - rgb.blue;
+					rgb.red = 255 - rgb.red;
+					rgb.green = 255 - rgb.green;
+					inData.setPixel(u, v, inData.palette.getPixel(rgb));
+				}
 			}
 		}
 

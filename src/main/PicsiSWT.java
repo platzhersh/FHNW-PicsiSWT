@@ -20,9 +20,8 @@ public class PicsiSWT {
 	public static final String[] SAVE_FILTER_EXTENSIONS = new String[] {
 		"*.bmp", "*.gif", "*.ico", "*.jpg", "*.pbm", "*.pgm", "*.png", "*.ppm", "*.tif" };
 	public static final String[] SAVE_FILTER_NAMES = new String[] {
-		"BMP (*.bmp)", "GIF (*.gif)",
-		"ICO (*.ico)", "JPEG (*.jpg)", "PBM (*.pbm)", "PGM (*.pgm)", "PNG (*.png)", "PPM (*.ppm)",
-		"TIFF (*.tif)" };
+		"BMP (*.bmp)", "GIF (*.gif)", "ICO (*.ico)", "JPEG (*.jpg)", "PBM (*.pbm)",
+		"PGM (*.pgm)", "PNG (*.png)", "PPM (*.ppm)", "TIFF (*.tif)" };
 	public static final int IMAGE_PBM = 100; // extension of SWT.IMAGE_XXX
 	public static final int IMAGE_PGM = 101;
 	public static final int IMAGE_PPM = 102;
