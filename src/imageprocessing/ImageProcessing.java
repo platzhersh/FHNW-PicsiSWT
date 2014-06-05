@@ -37,12 +37,11 @@ public class ImageProcessing {
 
 		// Neues MenuItem wird hinzugefügt: 1.Param=Text (&=mit Alt abrufbar), 2.Param=Shortcut, 3.Param=Instanz vom ImageProcessor
 		m_menuItems.add(new ImageMenuItem("&Invert\tF1", SWT.F1, new Inverter()));
-		m_menuItems.add(new ImageMenuItem("&Rotate\tF2", SWT.F2, new Rotator()));
-		m_menuItems.add(new ImageMenuItem("&Scale\tF3", SWT.F3, new Scaler()));
-		m_menuItems.add(new ImageMenuItem("&Filter\tF4", SWT.F4, new Filter()));
-		m_menuItems.add(new ImageMenuItem("&Edge Filter\tF5", SWT.F5, new EdgeDetector()));
-		m_menuItems.add(new ImageMenuItem("&PatternReconition\tF6", SWT.F6, new PM()));
-		m_menuItems.add(new ImageMenuItem("&Translate\tF7", SWT.F7, new Translator()));
+		m_menuItems.add(new ImageMenuItem("&Translate\tF2", SWT.F2, new Translator()));
+		m_menuItems.add(new ImageMenuItem("&Filter\tF3", SWT.F3, new Filter()));
+		m_menuItems.add(new ImageMenuItem("&Edge Filter\tF4", SWT.F4, new EdgeDetector()));
+		m_menuItems.add(new ImageMenuItem("&PatternReconition\tF5", SWT.F5, new PM()));
+		m_menuItems.add(new ImageMenuItem("&Translate\tF6", SWT.F6, new Translator()));
 		// TODO add here further image processing objects (they are inserted into the Image menu)
 	}
 
