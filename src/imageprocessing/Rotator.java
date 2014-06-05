@@ -6,11 +6,8 @@ import main.PicsiSWT;
 
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
-
-import utils.InterpolationLib;
 import utils.Matrix;
 import utils.Vector;
-import utils.DialogLib;
 
 public class Rotator implements imageprocessing.IImageProcessor {
 

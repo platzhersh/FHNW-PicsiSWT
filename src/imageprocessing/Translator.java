@@ -3,15 +3,22 @@ package imageprocessing;
 import java.awt.Point;
 
 import javax.swing.JOptionPane;
+import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 
 import main.PicsiSWT;
 
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 
 import utils.InterpolationLib;
 import utils.Matrix;
+import utils.TranslationDialog;
 import utils.Vector;
 
 public class Translator implements IImageProcessor {
@@ -27,10 +34,19 @@ public class Translator implements IImageProcessor {
 		ImageData inData = (ImageData) input.getImageData().clone();
 		ImageData outData = input.getImageData();
 		
-		int alpha = Integer.parseInt(JOptionPane.showInputDialog("Enter alpha"));
-		double scale = Double.parseDouble(JOptionPane.showInputDialog("Enter scale"));
+		int alpha = 0;
+		double scale = 1.0;
 		
-		Point center = new Point(inData.width / 2, inData.height / 2); // Koordinaten des Zentrums
+		Shell shell = new Shell();
+		TranslationDialog dialog = new TranslationDialog(shell);
+				
+		System.out.println(dialog.open().getClass());
+		
+		
+//		int alpha = Integer.parseInt(JOptionPane.showInputDialog("Enter alpha"));
+//		double scale = Double.parseDouble(JOptionPane.showInputDialog("Enter scale"));
+		
+		Point center = new Point(inData.width / 2, inData.height / 2); // Center of the picture to rotate around
 		
 		Matrix trl = Matrix.translation(center.x, center.y)
 				.times(Matrix.scale(scale))
