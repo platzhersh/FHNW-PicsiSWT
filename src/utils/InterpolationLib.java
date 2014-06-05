@@ -16,6 +16,8 @@ public class InterpolationLib {
 	 * @return RGB value of the pixel at (x/y)
 	 */
 	public static RGB bilinearInterpolation(RGB A, RGB B, RGB C, RGB D, double a, double b) {
+		System.out.println(A + " " +  B + " " +  C + " " + D + " " + a + " " + b);
+		
 		A.red 	= (int) ((a - 1) * (b - 1) * A.red);
 		A.green = (int) ((a - 1) * (b - 1) * A.green);
 		A.blue 	= (int) ((a - 1) * (b - 1) * A.blue);

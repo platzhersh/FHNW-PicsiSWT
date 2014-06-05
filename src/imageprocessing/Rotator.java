@@ -30,10 +30,10 @@ public class Rotator implements imageprocessing.IImageProcessor {
 		
 		Point center = new Point(inData.width / 2, inData.height / 2); // Koordinaten des Zentrums
 		
-		Matrix trl = Matrix.translation3D(center.x, center.y)
+		Matrix trl = Matrix.translation(center.x, center.y)
 				.times(Matrix.scale(scale))
 				.times(Matrix.rotation(alpha))
-				.times(Matrix.translation3D(-center.x, -center.y));
+				.times(Matrix.translation(-center.x, -center.y));
 		
 		for (int v = 0; v < outData.height; v++) {
 			for (int u = 0; u < outData.width; u++) {

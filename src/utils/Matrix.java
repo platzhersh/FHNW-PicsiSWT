@@ -195,7 +195,7 @@ public class Matrix {
 	 * @param a2 Move in y direction.
 	 * @return Translation matrix.
 	 */
-	static public Matrix translation3D(double a1, double a2) {
+	static public Matrix translation(double a1, double a2) {
 		Matrix temp = Matrix.identity(3);
 		temp.mat[0][2] = a1;
 		temp.mat[1][2] = a2;
