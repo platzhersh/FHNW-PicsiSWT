@@ -1,12 +1,16 @@
 package utils;
 
+import java.awt.Point;
+
+import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.RGB;
 
 public class InterpolationLib {
 
 	/**
-	 * Returns the RGB-value for a with interpolation.
+	 * Returns the RGB-value of a pixel for bilinear interpolation.
 	 * @param A RGB-value of a pixel at location (u / v).
 	 * @param B RGB-value of a pixel at location (u+1 / v).
 	 * @param C RGB-value of a pixel at location (u / v+1).
@@ -15,7 +19,7 @@ public class InterpolationLib {
 	 * @param b Delta y - v.
 	 * @return RGB value of the pixel at (x/y)
 	 */
-	public static RGB bilinearInterpolation(RGB A, RGB B, RGB C, RGB D, double a, double b) {
+	private static RGB getInterpolatedRGB(RGB A, RGB B, RGB C, RGB D, double a, double b) {
 		
 		A.red 	= (int) ((a - 1) * (b - 1) * A.red);
 		A.green = (int) ((a - 1) * (b - 1) * A.green);
@@ -36,6 +40,139 @@ public class InterpolationLib {
 		return new RGB(A.red + B.red + C.red + D.red, 
 				A.green + B.green + C.green + D.green, 
 				A.blue + B.blue + C.blue + D.blue);
+	}
+	
+	/**
+	 * Does a Source-To-Target Translation of an Image around it's center with bilinear interpolation.
+	 * @param input Image to rotate.
+	 * @param imageType Type of the image.
+	 * @param alpha Degrees to rotate.
+	 * @param scale Scale to zoom.
+	 * @return ImageData of rotated image.
+	 */
+	public static ImageData bilinearInterpolation(Image input, int imageType, int alpha, double scale) {
+		ImageData source = input.getImageData();
+		ImageData target = generateBlackImage(source, source.width, source.height);
+		
+		Point center = new Point(source.width / 2, source.height / 2); // Center of the picture to rotate around
+		
+		Matrix trl = Matrix.translation(center.x, center.y)
+				.times(Matrix.scale(scale))
+				.times(Matrix.rotation(-alpha))	// Inverse rotation
+				.times(Matrix.translation(-center.x, -center.y));
+				
+		for (int v = 0; v < target.height; v++) {
+			for (int u = 0; u < target.width; u++) {
+				
+				Vector trlPixel = trl.times(new Vector(u, v, 1));
+				
+				if (trlPixel.x(0) > -1 && trlPixel.x(1) > -1 
+						&& trlPixel.x(0) < source.width - 1 && trlPixel.x(1) < source.height - 1) {
+										
+					int pixel = 0;
+					pixel = source.getPixel((int) trlPixel.x(0), (int) trlPixel.x(1));
+					RGB A = source.palette.getRGB(pixel);
+					pixel = source.getPixel(((int) trlPixel.x(0)) + 1, (int) trlPixel.x(1));
+					RGB B = source.palette.getRGB(pixel);
+					pixel = source.getPixel((int) trlPixel.x(0), ((int) trlPixel.x(1)) + 1);
+					RGB C = source.palette.getRGB(pixel);
+					pixel = source.getPixel(((int) trlPixel.x(0)) + 1, ((int) trlPixel.x(1)) + 1);
+					RGB D = source.palette.getRGB(pixel);
+
+					target.setPixel(u, v, source.palette.getPixel(getInterpolatedRGB(A, B, C, D,
+									trlPixel.x(0) - (int) trlPixel.x(0), trlPixel.x(1) - (int) trlPixel.x(1))));
+				} else {
+					target.setPixel(u, v, 0x0);
+				}
+			}
+		}
+		
+		return target;
+	}
+	
+	/**
+	 * Does a Target-To-Source Translation of an Image around it's center.
+	 * @param input Image to rotate.
+	 * @param imageType Type of the image.
+	 * @param alpha Degrees to rotate.
+	 * @param scale Scale to zoom.
+	 * @return ImageData of rotated image.
+	 */
+	public static ImageData sourceToTargetTranslation(Image input, int imageType, int alpha, double scale) {
+		ImageData source = input.getImageData();
+		ImageData target = generateBlackImage(source, source.width, source.height);
+		
+		Point center = new Point(source.width / 2, source.height / 2); // Center of the picture to rotate around
+		
+		Matrix trl = Matrix.translation(center.x, center.y)
+				.times(Matrix.scale(scale))
+				.times(Matrix.rotation(alpha))
+				.times(Matrix.translation(-center.x, -center.y));
+		
+		for (int v = 0; v < source.height; v++) {
+			for (int u = 0; u < source.width; u++) {
+				
+				Vector trlPixel = trl.times(new Vector(u, v, 1));
+				
+				if (trlPixel.x(0) > -1 && trlPixel.x(1) > -1 
+						&& trlPixel.x(0) < target.width - 1 && trlPixel.x(1) < target.height - 1) {
+					int pixel = source.getPixel(u, v);
+//					RGB rgb = source.palette.getRGB(pixel);
+//					System.out.println(rgb);
+//					target.setPixel((int) trlPixel.x(0), (int) trlPixel.x(1), source.palette.getPixel(rgb));
+					target.setPixel((int) trlPixel.x(0), (int) trlPixel.x(1), pixel);
+				}
+			}
+		}
+				
+		return target;
+	}
+	
+	private static ImageData generateBlackImage(ImageData input, int width, int height) {
+		ImageData data = (ImageData) input.clone();
+		
+		for (int v = 0; v < data.height; v++) {
+			for (int u = 0; u < data.width; u++) {
+				data.setPixel(u, v, 0x0);
+			}
+		}
+		return data;
+	}
+	
+	/**
+	 * Does a Source-To-Target Translation of an Image around it's center with nearest neighbor interpolation.
+	 * @param input Image to rotate.
+	 * @param imageType Type of the image.
+	 * @param alpha Degrees to rotate.
+	 * @param scale Scale to zoom.
+	 * @return ImageData of rotated image.
+	 */
+	public static ImageData nearestNeighbor(Image input, int imageType, int alpha, double scale) {
+		ImageData source = input.getImageData();
+		ImageData target = generateBlackImage(source, source.width, source.height);
+		
+		Point center = new Point(source.width / 2, source.height / 2); // Center of the picture to rotate around
+		
+		Matrix trl = Matrix.translation(center.x, center.y)
+				.times(Matrix.scale(scale))
+				.times(Matrix.rotation(-alpha))	// Inverse rotation
+				.times(Matrix.translation(-center.x, -center.y));
+		
+		for (int v = 0; v < target.height; v++) {
+			for (int u = 0; u < target.width; u++) {
+				
+				Vector trlPixel = trl.times(new Vector(u, v, 1));
+				
+				if (trlPixel.x(0) > -1 && trlPixel.x(1) > -1 
+						&& trlPixel.x(0) < source.width - 1 && trlPixel.x(1) < source.height - 1) {
+					int pixel = source.getPixel((int) trlPixel.x(0), (int) trlPixel.x(1));
+					RGB rgb = source.palette.getRGB(pixel);
+					target.setPixel(u, v, source.palette.getPixel(rgb));
+				}
+			}
+		}
+		
+		return target;
 	}
 	
 	/**

@@ -25,30 +25,30 @@ public class Scaler implements IImageProcessor {
 		double scale = 0.75;
 		Matrix trl = Matrix.scale(scale);
 
-		for (int v = 0; v < outData.height; v++) {
-			for (int u = 0; u < outData.width; u++) {
-				Vector trlPixel = trl.times(new Vector(u, v, 1));
-				if (trlPixel.x(0) > -1 && trlPixel.x(1) > -1 
-						&& trlPixel.x(0) < inData.width && trlPixel.x(1) < inData.height) {
-					
-					int pixel = 0;
-					pixel = inData.getPixel((int) trlPixel.x(0), (int) trlPixel.x(1));
-					RGB A = inData.palette.getRGB(pixel);
-					pixel = inData.getPixel(((int) trlPixel.x(0)) + 1, (int) trlPixel.x(1));
-					RGB B = inData.palette.getRGB(pixel);
-					pixel = inData.getPixel((int) trlPixel.x(0), ((int) trlPixel.x(1)) + 1);
-					RGB C = inData.palette.getRGB(pixel);
-					pixel = inData.getPixel(((int) trlPixel.x(0)) + 1, ((int) trlPixel.x(1)) + 1);
-					RGB D = inData.palette.getRGB(pixel);
-
-					outData.setPixel(u,v,
-							inData.palette.getPixel(InterpolationLib.bilinearInterpolation(A, B, C, D, trlPixel.x(0)
-									- (int) trlPixel.x(0), trlPixel.x(1) - (int) trlPixel.x(1))));
-				} else {
-					outData.setPixel(u, v, 0x0);
-				}
-			}
-		}
+//		for (int v = 0; v < outData.height; v++) {
+//			for (int u = 0; u < outData.width; u++) {
+//				Vector trlPixel = trl.times(new Vector(u, v, 1));
+//				if (trlPixel.x(0) > -1 && trlPixel.x(1) > -1 
+//						&& trlPixel.x(0) < inData.width && trlPixel.x(1) < inData.height) {
+//					
+//					int pixel = 0;
+//					pixel = inData.getPixel((int) trlPixel.x(0), (int) trlPixel.x(1));
+//					RGB A = inData.palette.getRGB(pixel);
+//					pixel = inData.getPixel(((int) trlPixel.x(0)) + 1, (int) trlPixel.x(1));
+//					RGB B = inData.palette.getRGB(pixel);
+//					pixel = inData.getPixel((int) trlPixel.x(0), ((int) trlPixel.x(1)) + 1);
+//					RGB C = inData.palette.getRGB(pixel);
+//					pixel = inData.getPixel(((int) trlPixel.x(0)) + 1, ((int) trlPixel.x(1)) + 1);
+//					RGB D = inData.palette.getRGB(pixel);
+//
+//					outData.setPixel(u,v,
+//							inData.palette.getPixel(InterpolationLib.bilinearInterpolation(A, B, C, D, trlPixel.x(0)
+//									- (int) trlPixel.x(0), trlPixel.x(1) - (int) trlPixel.x(1))));
+//				} else {
+//					outData.setPixel(u, v, 0x0);
+//				}
+//			}
+//		}
 		return new Image(input.getDevice(), outData);
 	}
 }
