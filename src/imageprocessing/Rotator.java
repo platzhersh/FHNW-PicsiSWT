@@ -43,7 +43,7 @@ public class Rotator implements imageprocessing.IImageProcessor {
 				
 				// nearest neighbor interpolation
 				if ((int) pixelI.x(0) > -1 && (int) pixelI.x(1) > -1
-						&& (int) pixelI.x(0) < inData.width && (int) pixelI.x(1) < inData.height) {
+						&& (int) pixelI.x(0) < inData.width - 1 && (int) pixelI.x(1) < inData.height - 1) {
 					outData.setPixel(u, v, inData.getPixel((int) pixelI.x(0), (int) pixelI.x(1))); // gültiges pixel in der Quelle
 				} else {
 					outData.setPixel(u, v, 0x0); // kein gültiges Pixel, definiere schwarz (Ecke)

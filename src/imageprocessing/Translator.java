@@ -36,19 +36,15 @@ public class Translator implements IImageProcessor {
 				.times(Matrix.scale(scale))
 				.times(Matrix.rotation(alpha))
 				.times(Matrix.translation(-center.x, -center.y));
-		
-		trl.print(4);
-		
+						
 		for (int v = 0; v < outData.height; v++) {
 			for (int u = 0; u < outData.width; u++) {
 				
 				Vector trlPixel = trl.times(new Vector(u, v, 1));
 				
-				if (trlPixel.x(0) > -1 && trlPixel.x(2) > -1 
-						&& trlPixel.x(0) < inData.width && trlPixel.x(1) < inData.height) {
-					
-					System.out.println(trlPixel.x(0) + " " + trlPixel.x(1));
-					
+				if (trlPixel.x(0) > -1 && trlPixel.x(1) > -1 
+						&& trlPixel.x(0) < inData.width - 1 && trlPixel.x(1) < inData.height - 1) {
+										
 					int pixel = 0;
 					pixel = inData.getPixel((int) trlPixel.x(0), (int) trlPixel.x(1));
 					RGB A = inData.palette.getRGB(pixel);
@@ -67,7 +63,7 @@ public class Translator implements IImageProcessor {
 				}
 			}
 		}
-				
+						
 		return new Image(input.getDevice(), outData);
 	}
 

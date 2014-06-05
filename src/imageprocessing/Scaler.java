@@ -28,7 +28,7 @@ public class Scaler implements IImageProcessor {
 		for (int v = 0; v < outData.height; v++) {
 			for (int u = 0; u < outData.width; u++) {
 				Vector trlPixel = trl.times(new Vector(u, v, 1));
-				if (trlPixel.x(0) > -1 && trlPixel.x(2) > -1 
+				if (trlPixel.x(0) > -1 && trlPixel.x(1) > -1 
 						&& trlPixel.x(0) < inData.width && trlPixel.x(1) < inData.height) {
 					
 					int pixel = 0;
