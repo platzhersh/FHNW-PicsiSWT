@@ -34,7 +34,7 @@ public class InterpolationLib {
 		D.red 	= (int) (a * b * D.red);
 		D.green = (int) (a * b * D.green);
 		D.blue 	= (int) (a * b * D.blue);
-
+		
 		return new RGB(A.red + B.red + C.red + D.red, 
 				A.green + B.green + C.green + D.green, 
 				A.blue + B.blue + C.blue + D.blue);
@@ -63,24 +63,23 @@ public class InterpolationLib {
 			for (int u = 0; u < target.width; u++) {
 				
 				Vector trlPixel = trl.times(new Vector(u, v, 1));
+				int uSource = (int) trlPixel.x(0);
+				int vSource = (int) trlPixel.x(1);
 				
-				if (trlPixel.x(0) > -1 && trlPixel.x(1) > -1 
-						&& trlPixel.x(0) < source.width - 1 && trlPixel.x(1) < source.height - 1) {
+				if (uSource > 0 && vSource > 0 && uSource < source.width - 1 && vSource < source.height - 1) {
 										
 					int pixel = 0;
-					pixel = source.getPixel((int) trlPixel.x(0), (int) trlPixel.x(1));
+					pixel = source.getPixel(uSource, vSource);
 					RGB A = source.palette.getRGB(pixel);
-					pixel = source.getPixel(((int) trlPixel.x(0)) + 1, (int) trlPixel.x(1));
+					pixel = source.getPixel(uSource + 1, vSource);
 					RGB B = source.palette.getRGB(pixel);
-					pixel = source.getPixel((int) trlPixel.x(0), ((int) trlPixel.x(1)) + 1);
+					pixel = source.getPixel(uSource, vSource + 1);
 					RGB C = source.palette.getRGB(pixel);
-					pixel = source.getPixel(((int) trlPixel.x(0)) + 1, ((int) trlPixel.x(1)) + 1);
+					pixel = source.getPixel(uSource + 1, vSource + 1);
 					RGB D = source.palette.getRGB(pixel);
-
+					
 					target.setPixel(u, v, source.palette.getPixel(getInterpolatedRGB(A, B, C, D,
-									trlPixel.x(0) - (int) trlPixel.x(0), trlPixel.x(1) - (int) trlPixel.x(1))));
-				} else {
-					target.setPixel(u, v, 0x0);
+									trlPixel.x(0) - uSource, trlPixel.x(1) - vSource)));
 				}
 			}
 		}
@@ -115,9 +114,6 @@ public class InterpolationLib {
 				if (trlPixel.x(0) > -1 && trlPixel.x(1) > -1 
 						&& trlPixel.x(0) < target.width - 1 && trlPixel.x(1) < target.height - 1) {
 					int pixel = source.getPixel(u, v);
-//					RGB rgb = source.palette.getRGB(pixel);
-//					System.out.println(rgb);
-//					target.setPixel((int) trlPixel.x(0), (int) trlPixel.x(1), source.palette.getPixel(rgb));
 					target.setPixel((int) trlPixel.x(0), (int) trlPixel.x(1), pixel);
 				}
 			}
@@ -163,9 +159,8 @@ public class InterpolationLib {
 				
 				if (trlPixel.x(0) > -1 && trlPixel.x(1) > -1 
 						&& trlPixel.x(0) < source.width - 1 && trlPixel.x(1) < source.height - 1) {
-					int pixel = source.getPixel((int) trlPixel.x(0), (int) trlPixel.x(1));
-					RGB rgb = source.palette.getRGB(pixel);
-					target.setPixel(u, v, source.palette.getPixel(rgb));
+					int pixel = source.getPixel((int) (trlPixel.x(0) + 0.5), (int) (trlPixel.x(1) + 0.5));
+					target.setPixel(u, v, pixel);
 				}
 			}
 		}

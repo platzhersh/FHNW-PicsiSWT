@@ -3,6 +3,7 @@ package utils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -31,7 +32,6 @@ public class TranslationDialog extends Dialog {
         createContents();
         shell.pack();
         shell.open();
-        shell.layout();
         Display display = getParent().getDisplay();
         while (!shell.isDisposed()) {
             if (!display.readAndDispatch()) {
@@ -113,6 +113,7 @@ public class TranslationDialog extends Dialog {
         		shell.close();
         	}
 		});
+        ok.setSize(100, 100);
         ok.pack();
     }
     

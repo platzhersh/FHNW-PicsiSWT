@@ -152,6 +152,7 @@ public class MainWindow {
 	}
 
 	public void showErrorDialog(String operation, String filename, Throwable e) {
+		e.printStackTrace(); // TODO added for debugging
 		MessageBox box = new MessageBox(m_shell, SWT.ICON_ERROR);
 		String message = PicsiSWT.createMsg("Error {0}\nin {1}\n\n", new String[]
 			{ operation, filename });

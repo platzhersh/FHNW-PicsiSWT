@@ -41,7 +41,6 @@ public class ImageProcessing {
 		m_menuItems.add(new ImageMenuItem("&Filter\tF3", SWT.F3, new Filter()));
 		m_menuItems.add(new ImageMenuItem("&Edge Filter\tF4", SWT.F4, new EdgeDetector()));
 		m_menuItems.add(new ImageMenuItem("&PatternReconition\tF5", SWT.F5, new PM()));
-		m_menuItems.add(new ImageMenuItem("&Translate\tF6", SWT.F6, new Translator()));
 		// TODO add here further image processing objects (they are inserted into the Image menu)
 	}
 
