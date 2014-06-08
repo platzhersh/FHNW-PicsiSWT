@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Spinner;
 
 public class TranslationDialog extends Dialog {
 
-	public static enum IntOptions {NONE, NEAREST_NEIBOR, BILINEAR};
+	public static enum IntOptions {NONE_S2T, NONE_T2S, NEAREST_NEIBOR, BILINEAR};
 	
     protected Object result;
     protected Shell shell;
@@ -82,9 +82,14 @@ public class TranslationDialog extends Dialog {
         final Button[] interpolate = new Button[3];
         
         interpolate[0] = new Button(shell, SWT.RADIO);
-        interpolate[0].setData(IntOptions.NONE);
-        interpolate[0].setText("None (Target to source)");
+        interpolate[0].setData(IntOptions.NONE_S2T);
+        interpolate[0].setText("None (Source-to-Target)");
         interpolate[0].setSelection(true);
+        interpolate[0].pack();
+        
+        interpolate[0] = new Button(shell, SWT.RADIO);
+        interpolate[0].setData(IntOptions.NONE_T2S);
+        interpolate[0].setText("None (Target-to-Source)");
         interpolate[0].pack();
         
         interpolate[1] = new Button(shell, SWT.RADIO);
@@ -120,7 +125,7 @@ public class TranslationDialog extends Dialog {
     public class TranslationData {
     	int rotation = 0;
     	double scale = 1.0;
-    	IntOptions interpolation = IntOptions.NONE;
+    	IntOptions interpolation = IntOptions.NONE_S2T;
     	
     	private void setRotation(int r) {
     		rotation = r;

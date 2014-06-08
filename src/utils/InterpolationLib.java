@@ -88,7 +88,7 @@ public class InterpolationLib {
 	}
 	
 	/**
-	 * Does a Target-To-Source Translation of an Image around it's center.
+	 * Does a Source-to-Target Translation of an Image around it's center.
 	 * @param input Image to rotate.
 	 * @param imageType Type of the image.
 	 * @param alpha Degrees to rotate.
@@ -115,6 +115,41 @@ public class InterpolationLib {
 						&& trlPixel.x(0) < target.width - 1 && trlPixel.x(1) < target.height - 1) {
 					int pixel = source.getPixel(u, v);
 					target.setPixel((int) trlPixel.x(0), (int) trlPixel.x(1), pixel);
+				}
+			}
+		}
+				
+		return target;
+	}
+	
+	/**
+	 * Does a Target-To-Source Translation of an Image around it's center.
+	 * @param input Image to rotate.
+	 * @param imageType Type of the image.
+	 * @param alpha Degrees to rotate.
+	 * @param scale Scale to zoom.
+	 * @return ImageData of rotated image.
+	 */
+	public static ImageData targetToSourceTranslation(Image input, int imageType, int alpha, double scale) {
+		ImageData source = input.getImageData();
+		ImageData target = generateBlackImage(source, source.width, source.height);
+		
+		Point center = new Point(source.width / 2, source.height / 2); // Center of the picture to rotate around
+		
+		Matrix trl = Matrix.translation(center.x, center.y)
+				.times(Matrix.scale(1/scale))
+				.times(Matrix.rotation(alpha))
+				.times(Matrix.translation(-center.x, -center.y));
+		
+		for (int v = 0; v < source.height; v++) {
+			for (int u = 0; u < source.width; u++) {
+				
+				Vector trlPixel = trl.times(new Vector(u, v, 1));
+				
+				if (trlPixel.x(0) > -1 && trlPixel.x(1) > -1 
+						&& trlPixel.x(0) < target.width - 1 && trlPixel.x(1) < target.height - 1) {
+					int pixel = source.getPixel((int) trlPixel.x(0), (int) trlPixel.x(1));
+					target.setPixel(u,v, pixel);
 				}
 			}
 		}

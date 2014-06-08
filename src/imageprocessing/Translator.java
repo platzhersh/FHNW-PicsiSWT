@@ -28,9 +28,11 @@ public class Translator implements IImageProcessor {
 			int alpha = data.getRotation();
 			double scale = data.getScale();
 				
-			if (data.getInterpolation() == IntOptions.NONE) {
+			if (data.getInterpolation() == IntOptions.NONE_S2T) {
 				outData = InterpolationLib.sourceToTargetTranslation(input, imageType, alpha, scale);
-			} else if (data.getInterpolation() == IntOptions.NEAREST_NEIBOR) {
+			} else if (data.getInterpolation() == IntOptions.NONE_T2S) {
+				outData = InterpolationLib.targetToSourceTranslation(input, imageType, alpha, scale);
+			}  else if (data.getInterpolation() == IntOptions.NEAREST_NEIBOR) {
 				outData = InterpolationLib.nearestNeighbor(input, imageType, alpha, scale);
 			} else if (data.getInterpolation() == IntOptions.BILINEAR) {
 				outData = InterpolationLib.bilinearInterpolation(input, imageType, alpha, scale);
